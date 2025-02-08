@@ -59,7 +59,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="min-h-screen">{children}</main>
+          <main className="min-h-screen max-w-7xl">{children}</main>
         </ThemeProvider>
       </body>
     </html>
