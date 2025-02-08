@@ -30,7 +30,7 @@ export const SailingCard = ({ className, cruise }: SailingCardProps) => {
             date={formatDateRange(cruise.departureDate, cruise.returnDate)}
           />
         </div>
-        <div className="flex-1 flex flex-col justify-between md:justify-normal md:gap-4">
+        <div className="flex-1 flex flex-col justify-between md:gap-4">
           <div className="flex flex-col md:flex-row md:justify-between gap-4 p-4">
             <SailingContent>
               <SailingTitle title={cruise.name} />
