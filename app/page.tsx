@@ -9,6 +9,7 @@ import { AppSidebar } from "@/components/ui/app-sidebar";
 import { useCruises } from "@/hooks/use-cruises";
 import { CruiseList } from "@/components/cruisebound/cruise-list";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import { CompanyLogo } from "@/components/cruisebound/company-logo";
 
 export default function Home() {
   const { cruises, isLoading, isError } = useCruises();
@@ -38,8 +39,18 @@ export default function Home() {
     <SidebarProvider defaultOpen>
       <AppSidebar />
       <main className="min-h-screen w-full p-4">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-4 py-4">
           <SidebarCustomTrigger />
+          <div>
+            <CompanyLogo />
+            <h3
+              className="headline-9 m-0 p-0 text-cruisebound-black-default font-bold text-2xl md:text-3.5xl"
+              data-cy="cruiseboundLogoText"
+            >
+              Cruisebound
+            </h3>
+          </div>
+
           <ModeToggle />
         </div>
         <CruiseList
