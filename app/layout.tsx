@@ -6,6 +6,14 @@ import { ThemeProvider } from "@/components/theme-provider";
 
 import "./globals.css";
 
+import { Inter } from "next/font/google";
+
+// Initialize Inter font
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
 export const metadata: Metadata = {
   title: "Cruisebound Assessment",
   description:
@@ -42,7 +50,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`antialiased`}
+        className={`${inter.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
         <ThemeProvider
@@ -51,7 +59,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <main className="min-h-screen">{children}</main>
         </ThemeProvider>
       </body>
     </html>
