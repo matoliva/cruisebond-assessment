@@ -69,7 +69,7 @@ export function BreadcrumbResponsive({
                   <DropdownMenuContent align="start">
                     {items.slice(1, -2).map((item, index) => (
                       <DropdownMenuItem key={index}>
-                        <Link href="#">{item}</Link>
+                        <Link href="#" scroll={false}>{item}</Link>
                       </DropdownMenuItem>
                     ))}
                   </DropdownMenuContent>
@@ -88,7 +88,7 @@ export function BreadcrumbResponsive({
                     </DrawerHeader>
                     <div className="grid gap-1 px-4">
                       {items.slice(1, -2).map((item, index) => (
-                        <Link key={index} href="#" className="py-1 text-sm">
+                        <Link key={index} href="#" scroll={false} className="py-1 text-sm">
                           {item}
                         </Link>
                       ))}
@@ -115,7 +115,7 @@ export function BreadcrumbResponsive({
                   asChild
                   className="max-w-20 truncate md:max-w-none"
                 >
-                  <Link href="#">{item}</Link>
+                  <Link href="#" scroll={false}>{item}</Link>
                 </BreadcrumbLink>
               ) : (
                 <BreadcrumbPage className="max-w-20 truncate md:max-w-none">
