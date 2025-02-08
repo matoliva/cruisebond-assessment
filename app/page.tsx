@@ -13,7 +13,7 @@ import { CruiseHeader } from "@/components/cruisebound/cruise-header";
 import { ResultsSubheader } from "@/components/cruisebound/results-subheader";
 
 export default function Home() {
-  const { cruises, isLoading, isError } = useCruises();
+  const { cruises, isLoading } = useCruises();
   const router = useRouter();
   const searchParams = useSearchParams();
 

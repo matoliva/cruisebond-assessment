@@ -20,7 +20,7 @@ interface SailingCardProps {
   cruise: Cruise;
 }
 
-export const SailingCard = ({ className, cruise }: SailingCardProps) => {
+export const SailingCard = ({ cruise }: SailingCardProps) => {
   return (
     <div className="border rounded-lg shadow-sm transition duration-200 cursor-pointer w-full max-h-200">
       <div className="flex">

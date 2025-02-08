@@ -13,6 +13,7 @@ export async function GET() {
     const data = await res.json();
     return NextResponse.json(data);
   } catch (error) {
+    console.error('Error fetching cruises:', error);
     return NextResponse.json(
       { error: "Failed to fetch cruises" },
       { status: 500 }
