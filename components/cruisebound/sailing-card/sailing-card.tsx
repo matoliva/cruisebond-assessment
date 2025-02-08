@@ -1,15 +1,15 @@
 import { BreadcrumbResponsive } from "@/components/ui/breadcrumb-responsive";
 import { Button } from "@/components/ui/button";
 
-import { 
-  SailingContent, 
+import {
+  SailingContent,
   SailingImageWrapper,
   SailingShipInfo,
   SailingFooter,
   SailingPrice,
   SailingRegion,
-  SailingTitle
-} from '@/components/cruisebound/sailing-card'
+  SailingTitle,
+} from "@/components/cruisebound/sailing-card";
 
 import { Rating } from "../rating";
 
@@ -32,26 +32,30 @@ export const SailingCard = ({ className, cruise }: SailingCardProps) => {
         </div>
         <div className="flex-1 flex flex-col justify-between md:gap-4">
           <div className="flex flex-col md:flex-row md:justify-between gap-4 p-4">
-            <SailingContent>
-              <SailingTitle title={cruise.name} />
-              <div className="flex items-center gap-3 text-muted-foreground">
-                <SailingRegion
-                  region={cruise.region}
-                  duration={cruise.duration}
-                />
-                <Rating
-                  rating={cruise.ship.rating}
-                  reviews={cruise.ship.reviews}
-                />
-              </div>
-              <div>
-                <BreadcrumbResponsive items={cruise.itinerary} />
-              </div>
-            </SailingContent>
-            <SailingShipInfo
-              logo={cruise.ship.line.logo}
-              name={cruise.ship.name}
-            />
+            <div className="flex-4">
+              <SailingContent>
+                <SailingTitle title={cruise.name} />
+                <div className="flex items-center gap-3 text-muted-foreground">
+                  <SailingRegion
+                    region={cruise.region}
+                    duration={cruise.duration}
+                  />
+                  <Rating
+                    rating={cruise.ship.rating}
+                    reviews={cruise.ship.reviews}
+                  />
+                </div>
+                <div>
+                  <BreadcrumbResponsive items={cruise.itinerary} />
+                </div>
+              </SailingContent>
+            </div>
+            <div className="flex-1">
+              <SailingShipInfo
+                logo={cruise.ship.line.logo}
+                name={cruise.ship.name}
+              />
+            </div>
           </div>
           <SailingFooter>
             <SailingPrice amount={cruise.price} />
@@ -62,4 +66,3 @@ export const SailingCard = ({ className, cruise }: SailingCardProps) => {
     </div>
   );
 };
-
