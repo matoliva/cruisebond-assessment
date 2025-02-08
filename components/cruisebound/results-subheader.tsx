@@ -13,14 +13,12 @@ export const ResultsSubheader = ({
   onSort,
 }: ResultsSubheaderProps) => {
   return (
-    <div className="flex items-center justify-between gap-4">
-      <div className="flex items-center gap-4">
-        <span className="font-medium">{totalResults} trips found</span>
-        <Button
-          variant="ghost"
-          onClick={onReset}
-          className="text-blue-600 h-auto p-0 hover:bg-transparent"
-        >
+    <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="flex items-center gap-2 md:gap-4">
+        <span className="text-sm font-bold text-center">
+          {totalResults} trips found
+        </span>
+        <Button variant="outline" onClick={onReset}>
           Reset filters
         </Button>
       </div>
