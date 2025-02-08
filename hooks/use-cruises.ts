@@ -1,6 +1,6 @@
 import { useFetch } from "./use-fetch"
 
-export function useCruises() {
+export const useCruises = () => {
     const { data, isLoading, isError, error } = useFetch<ApiResponse>('/api/cruises')
   
     return {

@@ -8,7 +8,7 @@ const fetcher = async <T>(url: string): Promise<T> => {
   return res.json();
 };
 
-export function useFetch<T>(url: string) {
+export const useFetch = <T>(url: string) => {
   const { data, error, isLoading, mutate } = useSWR<T>(url, fetcher, {
     revalidateOnFocus: false,
     revalidateIfStale: false,
@@ -22,4 +22,4 @@ export function useFetch<T>(url: string) {
     error,
     mutate,
   };
-}
+};
