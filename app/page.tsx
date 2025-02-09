@@ -10,11 +10,11 @@ import { CruiseContent } from "@/components/cruisebound/cruise-content";
 
 export default function Home() {
   return (
-    <SidebarProvider defaultOpen>
-      <AppSidebar />
-      <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Loading...</div>}>
+      <SidebarProvider defaultOpen>
+        <AppSidebar />
         <CruiseContent />
-      </Suspense>
-    </SidebarProvider>
+      </SidebarProvider>
+    </Suspense>
   );
 }
