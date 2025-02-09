@@ -8,18 +8,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-interface SelectSortByProps {
-  onSort: (value: string) => void;
-}
+import { useCruiseFilters } from "@/hooks/use-filters"
 
-export const SelectSortBy = ({ onSort }: SelectSortByProps) => {
+export const SelectSortBy = () => {
+  const { currentFilters, setSort } = useCruiseFilters()
   return (
     <div className="flex items-center gap-2">
       <div className="hidden md:inline gap-1 text-sm text-muted-foreground">
         <span className=" text-sm font-medium">Sort by</span>
       </div>
       <div>
-        <Select onValueChange={onSort} defaultValue="price-asc">
+        <Select onValueChange={setSort} value={currentFilters.sort}>
           <SelectTrigger className="">
             <SelectValue placeholder="Price" />
           </SelectTrigger>

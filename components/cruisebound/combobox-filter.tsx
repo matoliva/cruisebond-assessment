@@ -49,9 +49,11 @@ export const ComboboxFilter = ({
           aria-expanded={open}
           className="w-full justify-between"
         >
-          {currentFilter
-            ? options.find((option) => option.value === currentFilter)?.label
-            : placeholder}
+          <span className="truncate">
+            {currentFilter
+              ? options.find((option) => option.value === currentFilter)?.label
+              : placeholder}
+          </span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -69,7 +71,9 @@ export const ComboboxFilter = ({
                   key={option.value}
                   value={option.value}
                   onSelect={(currentValue) => {
-                    onSelect(currentValue === currentFilter ? "" : currentValue);
+                    onSelect(
+                      currentValue === currentFilter ? "" : currentValue
+                    );
                     setOpen(false);
                     if (isMobile) {
                       toggleSidebar();
