@@ -14,6 +14,7 @@ export const CruiseContent = () => {
     currentFilters,
     isLoading,
     isError: fetchError,
+    totalCount,
     setSort,
     setPage,
     resetFilters,
@@ -34,7 +35,7 @@ export const CruiseContent = () => {
   return (
     <div className="flex flex-col gap-4 md:gap-6 min-h-screen w-full p-4">
       <ResultsSubheader
-        totalResults={cruises?.length ?? 0}
+        totalResults={totalCount}
         onReset={resetFilters}
         onSort={setSort}
       />

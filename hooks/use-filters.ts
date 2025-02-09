@@ -1,153 +1,165 @@
-'use client'
+"use client";
 
-import { useSearchParams, useRouter } from "next/navigation"
-import { useCallback, useMemo } from "react"
-import { extractDeparturePorts } from "@/utils/filters"
-import { extractCruiseLines } from "@/utils/filters"
-import { useCruises } from "./use-cruises"
-import { Option } from "@/types/options"
+import { useSearchParams, useRouter } from "next/navigation";
+import { useCallback, useMemo } from "react";
+import { extractDeparturePorts, extractCruiseLines } from "@/utils/filters";
+import { useCruises } from "./use-cruises";
+import { PortOption } from "@/types/port";
 
 interface UseCruiseFiltersReturn {
- cruises: Cruise[]
- ports: Option[]
- cruiseLines: Option[]
- isLoading: boolean
- isError: boolean
- totalPages: number
- currentFilters: {
-   port: string | null
-   cruiseLine: string | null
-   sort: string
-   page: number
- }
- setPortFilter: (port: string) => void
- setCruiseLineFilter: (line: string) => void
- setSort: (sort: string) => void
- setPage: (page: number) => void
- resetFilters: () => void
+  cruises: any[];
+  ports: PortOption[];
+  cruiseLines: PortOption[];
+  isLoading: boolean;
+  isError: boolean;
+  totalPages: number;
+  totalCount: number;
+  currentFilters: {
+    port: string | null;
+    cruiseLine: string | null;
+    sort: string;
+    page: number;
+  };
+  setPortFilter: (port: string) => void;
+  setCruiseLineFilter: (line: string) => void;
+  setSort: (sort: string) => void;
+  setPage: (page: number) => void;
+  resetFilters: () => void;
 }
 
 export const useCruiseFilters = (): UseCruiseFiltersReturn => {
- const router = useRouter()
- const searchParams = useSearchParams()
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
- const currentPort = searchParams.get("port") || null
- const currentCruiseLine = searchParams.get("cruiseline") || null
- const currentSort = searchParams.get("sort") || "price-asc"
- const currentPage = Number(searchParams.get("page")) || 1
- const itemsPerPage = 10
+  const currentPort = searchParams.get("port") || null;
+  const currentCruiseLine = searchParams.get("cruiseline") || null;
+  const currentSort = searchParams.get("sort") || "price-asc";
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const itemsPerPage = 10;
 
- const { cruises, isLoading, isError } = useCruises()
+  const { cruises, isLoading, isError } = useCruises();
 
- // Apply filtering
- const filteredCruises = useMemo(() => {
-   if (!cruises) return []
+  // Get all cruises length (total count)
+  const totalCruises = cruises?.length ?? 0;
 
-   return cruises.filter((cruise) => {
-     // Port filter
-     if (currentPort && cruise.itinerary?.[0]) {
-       const city = cruise.itinerary[0].split(",")[0].trim().toLowerCase()
-       if (city !== currentPort) return false
-     }
+  // Apply filtering
+  const filteredCruises = useMemo(() => {
+    if (!cruises) return [];
 
-     // Cruise line filter
-     if (currentCruiseLine && cruise.ship?.line?.name) {
-       const line = cruise.ship.line.name.toLowerCase()
-       if (line !== currentCruiseLine) return false
-     }
+    return cruises.filter((cruise) => {
+      if (currentPort && cruise.itinerary?.[0]) {
+        const city = cruise.itinerary[0].split(",")[0].trim().toLowerCase();
+        if (city !== currentPort) return false;
+      }
 
-     return true
-   })
- }, [cruises, currentPort, currentCruiseLine])
+      if (currentCruiseLine && cruise.ship?.line?.name) {
+        const line = cruise.ship.line.name.toLowerCase();
+        if (line !== currentCruiseLine) return false;
+      }
 
- // Apply sorting & pagination
- const sortedAndPaginatedCruises = useMemo(() => {
-   if (!filteredCruises) return []
+      return true;
+    });
+  }, [cruises, currentPort, currentCruiseLine]);
 
-   const sorted = [...filteredCruises].sort((a, b) => {
-     switch (currentSort) {
-       case "price-asc":
-         return a.price - b.price
-       case "price-desc":
-         return b.price - a.price
-       case "date-asc":
-         return new Date(a.departureDate).getTime() - new Date(b.departureDate).getTime()
-       case "date-desc":
-         return new Date(b.departureDate).getTime() - new Date(a.departureDate).getTime()
-       case "duration-asc":
-         return a.duration - b.duration
-       case "duration-desc":
-         return b.duration - a.duration
-       default:
-         return 0
-     }
-   })
+  // Get filtered count before pagination
+  const filteredCount = filteredCruises.length;
 
-   return sorted.slice(
-     (currentPage - 1) * itemsPerPage,
-     currentPage * itemsPerPage
-   )
- }, [filteredCruises, currentSort, currentPage])
+  // Apply sorting & pagination
+  const sortedAndPaginatedCruises = useMemo(() => {
+    if (!filteredCruises) return [];
 
- const totalPages = Math.ceil(filteredCruises.length / itemsPerPage)
+    const sorted = [...filteredCruises].sort((a, b) => {
+      switch (currentSort) {
+        case "price-asc":
+          return a.price - b.price;
+        case "price-desc":
+          return b.price - a.price;
+        case "date-asc":
+          return (
+            new Date(a.departureDate).getTime() -
+            new Date(b.departureDate).getTime()
+          );
+        case "date-desc":
+          return (
+            new Date(b.departureDate).getTime() -
+            new Date(a.departureDate).getTime()
+          );
+        case "duration-asc":
+          return a.duration - b.duration;
+        case "duration-desc":
+          return b.duration - a.duration;
+        default:
+          return 0;
+      }
+    });
 
- // Update filters in URL
- const setFilterParam = useCallback(
-   (key: string, value: string | number | null) => {
-     const params = new URLSearchParams(searchParams)
-     if (value === null) {
-       params.delete(key)
-     } else {
-       params.set(key, value.toString())
-     }
-     params.delete("page") // Reset pagination when filters change
-     router.push(`?${params.toString()}`)
-   },
-   [searchParams, router]
- )
+    return sorted.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+    );
+  }, [filteredCruises, currentSort, currentPage]);
 
- const setPortFilter = useCallback(
-   (port: string) => setFilterParam("port", port || null),
-   [setFilterParam]
- )
+  const totalPages = Math.ceil(filteredCount / itemsPerPage);
 
- const setCruiseLineFilter = useCallback(
-   (line: string) => setFilterParam("cruiseline", line || null),
-   [setFilterParam]
- )
+  // Update filters in URL
+  const setFilterParam = useCallback(
+    (key: string, value: string | number | null) => {
+      const params = new URLSearchParams(searchParams);
+      if (value === null) {
+        params.delete(key);
+      } else {
+        params.set(key, value.toString());
+      }
+      params.delete("page"); // Reset pagination when filters change
+      router.push(`?${params.toString()}`);
+    },
+    [searchParams, router]
+  );
 
- const setSort = useCallback(
-   (sort: string) => setFilterParam("sort", sort),
-   [setFilterParam]
- )
+  const setPortFilter = useCallback(
+    (port: string) => setFilterParam("port", port || null),
+    [setFilterParam]
+  );
 
- const setPage = useCallback(
-   (page: number) => setFilterParam("page", page),
-   [setFilterParam]
- )
+  const setCruiseLineFilter = useCallback(
+    (line: string) => setFilterParam("cruiseline", line || null),
+    [setFilterParam]
+  );
 
- const resetFilters = useCallback(
-   () => router.push("?"),
-   [router]
- )
+  const setSort = useCallback(
+    (sort: string) => setFilterParam("sort", sort),
+    [setFilterParam]
+  );
 
- return {
-   cruises: sortedAndPaginatedCruises,
-   ports: extractDeparturePorts(cruises),
-   cruiseLines: extractCruiseLines(cruises),
-   isLoading,
-   isError,
-   totalPages,
-   currentFilters: {
-     port: currentPort,
-     cruiseLine: currentCruiseLine,
-     sort: currentSort,
-     page: currentPage,
-   },
-   setPortFilter,
-   setCruiseLineFilter,
-   setSort,
-   setPage,
-   resetFilters,
- }
-}
+  const setPage = useCallback(
+    (page: number) => setFilterParam("page", page),
+    [setFilterParam]
+  );
+
+  const resetFilters = useCallback(() => router.push("?"), [router]);
+
+  // Use filteredCount when filters are active, otherwise use total
+  const displayCount =
+    currentPort || currentCruiseLine ? filteredCount : totalCruises;
+
+  return {
+    cruises: sortedAndPaginatedCruises,
+    ports: extractDeparturePorts(cruises),
+    cruiseLines: extractCruiseLines(cruises),
+    isLoading,
+    isError,
+    totalPages,
+    totalCount: displayCount,
+    currentFilters: {
+      port: currentPort,
+      cruiseLine: currentCruiseLine,
+      sort: currentSort,
+      page: currentPage,
+    },
+    setPortFilter,
+    setCruiseLineFilter,
+    setSort,
+    setPage,
+    resetFilters,
+  };
+};
