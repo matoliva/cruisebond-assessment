@@ -10,7 +10,6 @@ interface ResultsSubheaderProps {
 export const ResultsSubheader = ({
   totalResults,
   onReset,
-  onSort,
 }: ResultsSubheaderProps) => {
   return (
     <div className="flex flex-col md:flex-row items-center justify-between gap-4">
@@ -23,7 +22,7 @@ export const ResultsSubheader = ({
         </Button>
       </div>
 
-      <SelectSortBy onSort={onSort} />
+      <SelectSortBy />
     </div>
   );
 };

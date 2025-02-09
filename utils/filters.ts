@@ -23,3 +23,22 @@ export const extractDeparturePorts = (cruises: Cruise[] | undefined) => {
     label: city,
   }));
 };
+
+/**
+ * Extracts unique cruiselines from data
+ * Returns formatted array for combobox options with just the city name
+ */
+export const extractCruiseLines = (cruises: any[]) => {
+  if (!cruises?.length) return []
+
+  const uniqueLines = Array.from(new Set(
+    cruises
+      .map(cruise => cruise.ship?.line?.name)
+      .filter(Boolean)
+  )).sort()
+
+  return uniqueLines.map(line => ({
+    value: line.toLowerCase(),
+    label: line
+  }))
+}

@@ -32,7 +32,7 @@ export const SailingCard = ({ cruise }: SailingCardProps) => {
         </div>
         <div className="flex-1 flex flex-col justify-between md:gap-4">
           <div className="flex flex-col md:flex-row md:justify-between gap-4 p-4">
-            <div className="flex-4">
+            <div className="flex-2">
               <SailingContent>
                 <SailingTitle title={cruise.name} />
                 <div className="flex items-center gap-3 text-muted-foreground">

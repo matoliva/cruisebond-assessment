@@ -25,4 +25,4 @@ export const Rating = ({ rating, reviews }: RatingProps) => {
       </div>
     </div>
   );
-}
+};

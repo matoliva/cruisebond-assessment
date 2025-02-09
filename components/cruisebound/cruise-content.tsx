@@ -1,51 +1,49 @@
 "use client";
 
 import { CruiseList } from "@/components/cruisebound/cruise-list";
-import { CruiseHeader } from "@/components/cruisebound/cruise-header";
 import { ResultsSubheader } from "@/components/cruisebound/results-subheader";
-import { useFilteredCruises } from "@/hooks/use-filtered-cruises";
-import { useSortedCruises } from "@/hooks/use-sorted-cruises";
+import { useCruiseFilters } from "@/hooks/use-filters";
+import { CruiseListSkeleton } from "./cruise-card-skeleton";
+import { FetchError } from "./fetch-error";
+import { NoSailings } from "./no-sailings";
 
 export const CruiseContent = () => {
-  const { cruises, isLoading, isError: fetchError } = useFilteredCruises();
   const {
-    sortedCruises,
-    currentPage,
+    cruises,
     totalPages,
-    handleSort,
-    handlePageChange,
-    handleReset,
-  } = useSortedCruises(cruises);
+    currentFilters,
+    isLoading,
+    isError: fetchError,
+    setSort,
+    setPage,
+    resetFilters,
+  } = useCruiseFilters();
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <CruiseListSkeleton />;
   }
 
   if (fetchError) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <h2 className="text-lg font-semibold mb-2">Failed to load cruises</h2>
-          <p className="text-muted-foreground">Please try again later</p>
-        </div>
-      </div>
-    );
+    return <FetchError />;
+  }
+
+  if (!cruises?.length) {
+    return <NoSailings resetFilters={resetFilters} />;
   }
 
   return (
-    <main className="flex flex-col gap-4 md:gap-6 min-h-screen w-full p-4">
-      <CruiseHeader />
+    <div className="flex flex-col gap-4 md:gap-6 min-h-screen w-full p-4">
       <ResultsSubheader
         totalResults={cruises?.length ?? 0}
-        onReset={handleReset}
-        onSort={handleSort}
+        onReset={resetFilters}
+        onSort={setSort}
       />
       <CruiseList
-        cruises={sortedCruises}
-        currentPage={currentPage}
+        cruises={cruises}
+        currentPage={currentFilters.page}
         totalPages={totalPages}
-        onPageChange={handlePageChange}
+        onPageChange={setPage}
       />
-    </main>
+    </div>
   );
 };
