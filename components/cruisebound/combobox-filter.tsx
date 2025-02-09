@@ -16,14 +16,27 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
-import { Option } from "@/types/options";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { useCruiseFilters } from "@/hooks/use-filters";
+import { Option } from "@/types/options";
 import { useSidebar } from "../ui/sidebar";
 
-export const PortFilter = () => {
-  const { currentFilters, ports, setPortFilter } = useCruiseFilters();
+interface ComboboxFilterProps {
+  options: Option[];
+  currentValue: string | null;
+  onSelect: (value: string) => void;
+  placeholder: string;
+  searchPlaceholder: string;
+  emptyMessage: string;
+}
+
+export const ComboboxFilter = ({
+  options,
+  currentValue: currentFilter,
+  onSelect,
+  placeholder,
+  searchPlaceholder,
+  emptyMessage,
+}: ComboboxFilterProps) => {
   const [open, setOpen] = useState(false);
   const { toggleSidebar, isMobile } = useSidebar();
 
@@ -36,11 +49,9 @@ export const PortFilter = () => {
           aria-expanded={open}
           className="w-full justify-between"
         >
-          {currentFilters.port
-            ? ports.find(
-                (port: Option) => port.value === currentFilters.port
-              )?.label
-            : "Any port"}
+          {currentFilter
+            ? options.find((option) => option.value === currentFilter)?.label
+            : placeholder}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -49,18 +60,16 @@ export const PortFilter = () => {
         style={{ maxHeight: "calc(100vh - 300px)", overflowY: "auto" }}
       >
         <Command>
-          <CommandInput placeholder="Search ports..." />
+          <CommandInput placeholder={searchPlaceholder} />
           <ScrollArea>
-            <CommandEmpty>No port found.</CommandEmpty>
+            <CommandEmpty>{emptyMessage}</CommandEmpty>
             <CommandGroup>
-              {ports.map((port) => (
+              {options.map((option) => (
                 <CommandItem
-                  key={port.value}
-                  value={port.value}
+                  key={option.value}
+                  value={option.value}
                   onSelect={(currentValue) => {
-                    setPortFilter(
-                      currentValue === currentFilters.port ? "" : currentValue
-                    );
+                    onSelect(currentValue === currentFilter ? "" : currentValue);
                     setOpen(false);
                     if (isMobile) {
                       toggleSidebar();
@@ -70,12 +79,12 @@ export const PortFilter = () => {
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      currentFilters.port === port.value
+                      currentFilter === option.value
                         ? "opacity-100"
                         : "opacity-0"
                     )}
                   />
-                  {port.label}
+                  {option.label}
                 </CommandItem>
               ))}
             </CommandGroup>

@@ -7,11 +7,18 @@ import {
   SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import { Input } from "@/components/ui/input";
 import { CompanyLogo } from "@/components/cruisebound/company-logo";
-import { PortFilter } from "../cruisebound/port-filter";
+import { useCruiseFilters } from "@/hooks/use-filters";
+import { ComboboxFilter } from "@/components/cruisebound/combobox-filter";
 
 export function AppSidebar() {
+  const {
+    currentFilters,
+    cruiseLines,
+    ports,
+    setPortFilter,
+    setCruiseLineFilter,
+  } = useCruiseFilters();
   return (
     <Sidebar className="w-64 border-r">
       <SidebarHeader className="p-4 border-b">
@@ -27,7 +34,14 @@ export function AppSidebar() {
           {/* Departure Port Filter */}
           <div>
             <h2 className="mb-2 text-lg font-medium">Departure port</h2>
-            <PortFilter />
+            <ComboboxFilter
+              options={ports}
+              currentValue={currentFilters.port}
+              onSelect={setPortFilter}
+              placeholder="Any port"
+              searchPlaceholder="Search ports..."
+              emptyMessage="No port found."
+            />
           </div>
         </SidebarGroup>
 
@@ -35,7 +49,14 @@ export function AppSidebar() {
           {/* Cruiseline Filter */}
           <div>
             <h2 className="mb-2 text-lg font-medium">Cruiseline</h2>
-            <Input type="text" placeholder="Any ship" className="w-full" />
+            <ComboboxFilter
+              options={cruiseLines}
+              currentValue={currentFilters.cruiseLine}
+              onSelect={setCruiseLineFilter}
+              placeholder="Any ship"
+              searchPlaceholder="Search cruise lines..."
+              emptyMessage="No cruise line found."
+            />
           </div>
         </SidebarGroup>
       </SidebarContent>

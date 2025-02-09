@@ -3,11 +3,11 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { extractDeparturePorts } from "@/utils/filters";
 import { useCruises } from "./use-cruises";
-import { PortOption } from "@/types/port";
+import { Option } from "@/types/options";
 
 interface UseFilteredCruisesReturn {
   cruises: Cruise[] | undefined;
-  ports: PortOption[];
+  ports: Option[];
   isLoading: boolean;
   isError: boolean;
   currentFilters: {

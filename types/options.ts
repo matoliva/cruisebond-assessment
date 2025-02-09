@@ -1,4 +1,4 @@
-export interface PortOption {
+export interface Option {
   value: string;
   label: string;
 }
