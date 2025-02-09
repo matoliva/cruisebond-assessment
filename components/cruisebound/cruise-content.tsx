@@ -3,19 +3,19 @@
 import { CruiseList } from "@/components/cruisebound/cruise-list";
 import { CruiseHeader } from "@/components/cruisebound/cruise-header";
 import { ResultsSubheader } from "@/components/cruisebound/results-subheader";
-import { useFilteredCruises } from "@/hooks/use-filtered-cruises";
-import { useSortedCruises } from "@/hooks/use-sorted-cruises";
+import { useCruiseFilters } from "@/hooks/use-filters";
 
 export const CruiseContent = () => {
-  const { cruises, isLoading, isError: fetchError } = useFilteredCruises();
   const {
-    sortedCruises,
-    currentPage,
+    cruises,
     totalPages,
-    handleSort,
-    handlePageChange,
-    handleReset,
-  } = useSortedCruises(cruises);
+    currentFilters,
+    isLoading,
+    isError: fetchError,
+    setSort,
+    setPage,
+    resetFilters,
+  } = useCruiseFilters();
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -37,14 +37,14 @@ export const CruiseContent = () => {
       <CruiseHeader />
       <ResultsSubheader
         totalResults={cruises?.length ?? 0}
-        onReset={handleReset}
-        onSort={handleSort}
+        onReset={resetFilters}
+        onSort={setSort}
       />
       <CruiseList
-        cruises={sortedCruises}
-        currentPage={currentPage}
+        cruises={cruises}
+        currentPage={currentFilters.page}
         totalPages={totalPages}
-        onPageChange={handlePageChange}
+        onPageChange={setPage}
       />
     </main>
   );

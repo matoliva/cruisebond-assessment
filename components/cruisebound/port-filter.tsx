@@ -17,13 +17,15 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { useFilteredCruises } from "@/hooks/use-filtered-cruises";
 import { PortOption } from "@/types/port";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { useCruiseFilters } from "@/hooks/use-filters";
+import { useSidebar } from "../ui/sidebar";
 
 export const PortFilter = () => {
-  const { ports, currentFilters, setPortFilter } = useFilteredCruises();
+  const { currentFilters, ports, setPortFilter } = useCruiseFilters();
   const [open, setOpen] = useState(false);
+  const { toggleSidebar, isMobile } = useSidebar();
 
   return (
     <Popover modal={true} open={open} onOpenChange={setOpen}>
@@ -60,6 +62,9 @@ export const PortFilter = () => {
                       currentValue === currentFilters.port ? "" : currentValue
                     );
                     setOpen(false);
+                    if (isMobile) {
+                      toggleSidebar();
+                    }
                   }}
                 >
                   <Check

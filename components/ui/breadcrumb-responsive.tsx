@@ -13,8 +13,8 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"; // Adjust path if needed
-import { Button } from "@/components/ui/button"; // Adjust path if needed
+} from "@/components/ui/breadcrumb";
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -24,15 +24,15 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer"; // Adjust path if needed
+} from "@/components/ui/drawer";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"; // Adjust path if needed
+} from "@/components/ui/dropdown-menu";
 
-import useMediaQuery from "@/hooks/use-media-query"; // Adjust path if needed
+import useMediaQuery from "@/hooks/use-media-query";
 
 interface BreadcrumbResponsiveProps {
   items: string[];
@@ -45,6 +45,12 @@ export function BreadcrumbResponsive({
 }: BreadcrumbResponsiveProps) {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+
+  if (items.length === 0) {
+    return <div>
+      <p className="text-sm text-gray-500">No itinerary available</p>
+    </div>;
+  }
 
   return (
     <Breadcrumb>
