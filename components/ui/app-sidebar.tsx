@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { CompanyLogo } from "@/components/cruisebound/company-logo";
+import { PortFilter } from "../cruisebound/port-filter";
 
 export function AppSidebar() {
   return (
@@ -26,7 +27,7 @@ export function AppSidebar() {
           {/* Departure Port Filter */}
           <div>
             <h2 className="mb-2 text-lg font-medium">Departure port</h2>
-            <Input type="text" placeholder="Any port" className="w-full" />
+            <PortFilter />
           </div>
         </SidebarGroup>
 

@@ -59,7 +59,9 @@ export const SailingCard = ({ cruise }: SailingCardProps) => {
           </div>
           <SailingFooter>
             <SailingPrice amount={cruise.price} />
-            <Button className="bg-blue-600 dark:text-white">See sailings</Button>
+            <Button className="bg-blue-600 dark:text-white">
+              See sailings
+            </Button>
           </SailingFooter>
         </div>
       </div>
