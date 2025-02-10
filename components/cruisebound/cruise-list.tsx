@@ -1,5 +1,6 @@
 import { SailingCard } from "./sailing-card";
 import { CruisePagination } from "./cruise-pagination";
+import { Cruise } from "@/types/sailings";
 
 interface CruiseListProps {
   cruises: Cruise[];
@@ -18,12 +19,13 @@ export const CruiseList = ({
       {cruises.map((cruise, index) => (
         <SailingCard key={index} cruise={cruise} />
       ))}
-
-      <CruisePagination
-        onPageChange={onPageChange}
-        currentPage={currentPage}
-        totalPages={totalPages}
-      />
+      <div className="p-4">
+        <CruisePagination
+          onPageChange={onPageChange}
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
+      </div>
     </div>
   );
 };

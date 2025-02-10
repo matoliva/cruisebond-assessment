@@ -41,7 +41,7 @@ export const CruiseContent = () => {
   }
 
   return (
-    <div className="flex flex-col gap-4 md:gap-6 min-h-screen w-full p-4">
+    <div className="flex flex-col gap-4 md:gap-6 min-h-screen w-full">
       <ResultsSubheader
         totalResults={totalCount}
         onReset={resetFilters}

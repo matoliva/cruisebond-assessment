@@ -1,3 +1,5 @@
+import { Cruise } from "@/types/sailings";
+
 /**
  * Extracts unique departure ports from cruises data
  * Returns formatted array for combobox options with just the city name

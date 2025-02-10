@@ -1,3 +1,4 @@
+import { ApiResponse } from "@/types/sailings"
 import { useFetch } from "./useFetch"
 
 export const useFetchCruises = () => {

@@ -37,6 +37,7 @@ export function AppSidebar() {
     setPortFilter,
     setCruiseLineFilter,
   } = useCruiseFilters();
+  
   return (
     <Sidebar className="w-64 border-r">
       <SidebarHeader className="p-4 border-b">
