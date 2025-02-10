@@ -10,24 +10,24 @@ import {
 import { CompanyLogo } from "@/components/cruisebound/company-logo";
 import { useCruiseFilters } from "@/hooks/useCruiseFilters";
 import { ComboboxFilter } from "@/components/cruisebound/combobox-filter";
+import { format } from "date-fns";
+import { DatePicker } from "@/components/cruisebound/date-picker";
 
 /**
-* AppSidebar Component
-* 
-* A responsive sidebar component that manages cruise search filters:
-* - Uses shadcn/ui components for consistent UI
-* - Integrates with useCruiseFilters hook for state management
-* - Provides port and cruise line filtering capabilities
-* - Includes keyboard shortcut (⌘+B) for toggle
-* - Responsive design with mobile considerations
-* 
-* Key Features:
-* - Reusable ComboboxFilter for both filters
-* - URL-based state management
-* - Accessible keyboard shortcuts
-* - Company branding section
-* - Cypress test attributes for E2E testing
-*/
+ * AppSidebar Component
+ *
+ * A responsive sidebar component that manages cruise search filters:
+ * - Uses shadcn/ui components for consistent UI
+ * - Integrates with useCruiseFilters hook for state management
+ * - Provides port, cruiseline and daparture day filtering capabilities
+ * - Includes keyboard shortcut (⌘+B) for toggle
+ * - Responsive design with mobile considerations
+ *
+ * Key Features:
+ * - Reusable ComboboxFilter for both filters
+ * - URL-based state management
+ * - Accessible keyboard shortcuts
+ */
 
 export function AppSidebar() {
   const {
@@ -36,8 +36,16 @@ export function AppSidebar() {
     ports,
     setPortFilter,
     setCruiseLineFilter,
+    setDepartureDayFilter,
   } = useCruiseFilters();
-  
+
+  const handleDateChange = (selectedDate: Date | undefined) => {
+    if (selectedDate) {
+      setDepartureDayFilter(format(selectedDate, "yyyy-MM-dd"));
+    } else {
+      setDepartureDayFilter("");
+    }
+  };
   return (
     <Sidebar className="w-64 border-r">
       <SidebarHeader className="p-4 border-b">
@@ -48,7 +56,21 @@ export function AppSidebar() {
         </p>
       </SidebarHeader>
 
-      <SidebarContent className="p-6">
+      <SidebarContent className="p-4">
+        <SidebarGroup className="space-y-6">
+          {/* Departure date Filter */}
+          <div>
+            <h2 className="mb-2 text-lg font-medium">Departure date</h2>
+            <DatePicker
+              date={
+                currentFilters.departureDay
+                  ? new Date(currentFilters.departureDay)
+                  : null
+              }
+              handleDateChange={handleDateChange}
+            />
+          </div>
+        </SidebarGroup>
         <SidebarGroup className="space-y-6">
           {/* Departure Port Filter */}
           <div>
@@ -64,7 +86,7 @@ export function AppSidebar() {
           </div>
         </SidebarGroup>
 
-        <SidebarGroup className="mt-6 space-y-6">
+        <SidebarGroup className="space-y-6">
           {/* Cruiseline Filter */}
           <div>
             <h2 className="mb-2 text-lg font-medium">Cruiseline</h2>
