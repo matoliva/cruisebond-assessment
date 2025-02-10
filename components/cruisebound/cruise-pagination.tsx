@@ -34,7 +34,7 @@ export const CruisePagination = ({
               }
             }}
             className={cn(
-              currentPage === totalPages && "pointer-events-none opacity-50"
+              currentPage === 1 && "pointer-events-none opacity-50"
             )}
           />
         </PaginationItem>

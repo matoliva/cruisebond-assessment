@@ -20,9 +20,11 @@ interface UseCruiseFiltersReturn {
     cruiseLine: string | null;
     sort: string;
     page: number;
+    departureDay: string | null;
   };
   setPortFilter: (port: string) => void;
   setCruiseLineFilter: (line: string) => void;
+  setDepartureDayFilter: (day: string) => void;
   setSort: (sort: string) => void;
   setPage: (page: number) => void;
   resetFilters: () => void;
@@ -59,6 +61,7 @@ export const useCruiseFilters = (): UseCruiseFiltersReturn => {
   const currentCruiseLine = searchParams.get("cruiseline") || null;
   const currentSort = searchParams.get("sort") || "price-asc";
   const currentPage = Number(searchParams.get("page")) || 1;
+  const currentDepartureDay = searchParams.get("departureday") || null;
   const itemsPerPage = 10;
 
   const { cruises, isLoading, isError } = useFetchCruises();
@@ -81,9 +84,13 @@ export const useCruiseFilters = (): UseCruiseFiltersReturn => {
         if (line !== currentCruiseLine) return false;
       }
 
+      if (currentDepartureDay && cruise.departureDate) {
+        if (cruise.departureDate !== currentDepartureDay) return false;
+      }
+
       return true;
     });
-  }, [cruises, currentPort, currentCruiseLine]);
+  }, [cruises, currentPort, currentCruiseLine, currentDepartureDay]);
 
   // Get filtered count before pagination
   const filteredCount = filteredCruises.length;
@@ -127,14 +134,16 @@ export const useCruiseFilters = (): UseCruiseFiltersReturn => {
 
   // Update filters in URL
   const setFilterParam = useCallback(
-    (key: string, value: string | number | null) => {
+    (key: string, value: string | number | null, resetPagination = true) => {
       const params = new URLSearchParams(searchParams);
       if (value === null) {
         params.delete(key);
       } else {
         params.set(key, value.toString());
       }
-      params.delete("page"); // Reset pagination when filters change
+      if (resetPagination && key !== "page") {
+        params.delete("page"); // Only reset pagination for non-page updates
+      }
       router.push(`?${params.toString()}`);
     },
     [searchParams, router]
@@ -156,7 +165,12 @@ export const useCruiseFilters = (): UseCruiseFiltersReturn => {
   );
 
   const setPage = useCallback(
-    (page: number) => setFilterParam("page", page),
+    (page: number) => setFilterParam("page", page, false),
+    [setFilterParam]
+  );
+
+  const setDepartureDayFilter = useCallback(
+    (day: string) => setFilterParam("departureday", day || null),
     [setFilterParam]
   );
 
@@ -164,7 +178,9 @@ export const useCruiseFilters = (): UseCruiseFiltersReturn => {
 
   // Use filteredCount when filters are active, otherwise use total
   const displayCount =
-    currentPort || currentCruiseLine ? filteredCount : totalCruises;
+    currentPort || currentCruiseLine || currentDepartureDay
+      ? filteredCount
+      : totalCruises;
 
   return {
     cruises: sortedAndPaginatedCruises,
@@ -177,6 +193,7 @@ export const useCruiseFilters = (): UseCruiseFiltersReturn => {
     currentFilters: {
       port: currentPort,
       cruiseLine: currentCruiseLine,
+      departureDay: currentDepartureDay,
       sort: currentSort,
       page: currentPage,
     },
@@ -185,5 +202,6 @@ export const useCruiseFilters = (): UseCruiseFiltersReturn => {
     setSort,
     setPage,
     resetFilters,
+    setDepartureDayFilter,
   };
 };
