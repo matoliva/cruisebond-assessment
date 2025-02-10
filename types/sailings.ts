@@ -1,4 +1,4 @@
-interface CruiseLine {
+export interface CruiseLine {
     logo: string
     name: string
   }
@@ -11,7 +11,7 @@ interface CruiseLine {
     line: CruiseLine
   }
   
-  interface Cruise {
+  export interface Cruise {
     price: number
     name: string
     ship: Ship
@@ -22,6 +22,6 @@ interface CruiseLine {
     duration: number
   }
   
-  interface ApiResponse {
+  export interface ApiResponse {
     results: Cruise[]
   }

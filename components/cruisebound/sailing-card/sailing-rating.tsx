@@ -6,7 +6,7 @@ interface RatingProps {
   reviews: number;
 }
 
-export const Rating = ({ rating, reviews }: RatingProps) => {
+export const SailingRating = ({ rating, reviews }: RatingProps) => {
   return (
     <div className="flex flex-col items-center md:flex-row md:gap-1 text-sm text-muted-foreground">
       <div className="flex items-center gap-1">

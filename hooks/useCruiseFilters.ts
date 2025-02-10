@@ -4,12 +4,13 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { extractDeparturePorts, extractCruiseLines } from "@/utils/filters";
 import { useFetchCruises } from "./useFetchCruises";
-import { PortOption } from "@/types/port";
+import { Option } from "@/types/options";
+import { Cruise } from "@/types/sailings";
 
 interface UseCruiseFiltersReturn {
   cruises: any[];
-  ports: PortOption[];
-  cruiseLines: PortOption[];
+  ports: Option[];
+  cruiseLines: Option[];
   isLoading: boolean;
   isError: boolean;
   totalPages: number;
@@ -69,7 +70,7 @@ export const useCruiseFilters = (): UseCruiseFiltersReturn => {
   const filteredCruises = useMemo(() => {
     if (!cruises) return [];
 
-    return cruises.filter((cruise) => {
+    return cruises.filter((cruise: Cruise) => {
       if (currentPort && cruise.itinerary?.[0]) {
         const city = cruise.itinerary[0].split(",")[0].trim().toLowerCase();
         if (city !== currentPort) return false;

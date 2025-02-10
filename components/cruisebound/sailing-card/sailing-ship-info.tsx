@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { CruiseLine } from "@/types/sailings";
 
 export const SailingShipInfo = ({ logo, name }: CruiseLine) => {
   return (
