@@ -29,6 +29,24 @@ interface ComboboxFilterProps {
   emptyMessage: string;
 }
 
+/**
+* ComboboxFilter Component
+* 
+* A reusable, accessible combobox component built with shadcn/ui that provides:
+* - Searchable dropdown functionality
+* - Mobile-responsive design
+* - Keyboard navigation
+* - Customizable placeholders and messages
+* 
+* Features:
+* - Integration with URL-based filtering
+* - Text truncation for long options
+* - Automatic sidebar toggle on mobile
+* - Checkmark indicators for selected options
+* - Scrollable content with height limits
+* - Modal behavior for better mobile UX
+*/ 
+
 export const ComboboxFilter = ({
   options,
   currentValue: currentFilter,

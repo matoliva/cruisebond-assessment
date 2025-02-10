@@ -8,8 +8,26 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar";
 import { CompanyLogo } from "@/components/cruisebound/company-logo";
-import { useCruiseFilters } from "@/hooks/use-filters";
+import { useCruiseFilters } from "@/hooks/useCruiseFilters";
 import { ComboboxFilter } from "@/components/cruisebound/combobox-filter";
+
+/**
+* AppSidebar Component
+* 
+* A responsive sidebar component that manages cruise search filters:
+* - Uses shadcn/ui components for consistent UI
+* - Integrates with useCruiseFilters hook for state management
+* - Provides port and cruise line filtering capabilities
+* - Includes keyboard shortcut (⌘+B) for toggle
+* - Responsive design with mobile considerations
+* 
+* Key Features:
+* - Reusable ComboboxFilter for both filters
+* - URL-based state management
+* - Accessible keyboard shortcuts
+* - Company branding section
+* - Cypress test attributes for E2E testing
+*/
 
 export function AppSidebar() {
   const {

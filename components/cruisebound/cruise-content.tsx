@@ -1,11 +1,19 @@
 "use client";
 
 import { CruiseList } from "@/components/cruisebound/cruise-list";
-import { ResultsSubheader } from "@/components/cruisebound/results-subheader";
-import { useCruiseFilters } from "@/hooks/use-filters";
+import { ResultsSubheader } from "@/components/cruisebound/subheader";
+import { useCruiseFilters } from "@/hooks/useCruiseFilters";
 import { CruiseListSkeleton } from "./cruise-card-skeleton";
-import { FetchError } from "./fetch-error";
-import { NoSailings } from "./no-sailings";
+import { FetchError } from "./fetch-error-message";
+import { NoSailings } from "./no-sailings-message";
+
+/**
+ * Main content component that handles:
+ * - Display of filtered cruise results
+ * - Loading, error and empty states
+ * - Integration with filters and pagination
+ * - Responsive layout for all devices
+ */
 
 export const CruiseContent = () => {
   const {

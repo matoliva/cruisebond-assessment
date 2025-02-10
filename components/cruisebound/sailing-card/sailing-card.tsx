@@ -11,7 +11,7 @@ import {
   SailingTitle,
 } from "@/components/cruisebound/sailing-card";
 
-import { Rating } from "../rating";
+import { Rating } from "./sailing-rating";
 
 import { formatDateRange } from "@/lib/utils";
 
