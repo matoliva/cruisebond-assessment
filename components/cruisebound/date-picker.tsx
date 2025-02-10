@@ -44,7 +44,6 @@ export function DatePicker({ date, handleDateChange }: DatePickerProps) {
               toggleSidebar();
             }
           }}
-          initialFocus
         />
       </PopoverContent>
     </Popover>

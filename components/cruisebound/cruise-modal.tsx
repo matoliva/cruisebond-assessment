@@ -23,15 +23,15 @@ interface CruiseModalProps {
 export const CruiseModal = ({ cruise, isOpen, onClose }: CruiseModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] h-[90vh] sm:h-auto overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">
+          <DialogTitle className="text-lg sm:text-xl font-semibold line-clamp-2">
             {cruise.name}
           </DialogTitle>
         </DialogHeader>
 
-        {/* Main Image with Gradient Overlay */}
-        <div className="relative h-[200px] -mt-2 rounded-md overflow-hidden">
+        {/* Main Image - Reduced height on mobile */}
+        <div className="relative h-[150px] sm:h-[200px] -mt-2 rounded-md overflow-hidden">
           <Image
             src={cruise.ship.image}
             alt={cruise.name}
@@ -41,67 +41,78 @@ export const CruiseModal = ({ cruise, isOpen, onClose }: CruiseModalProps) => {
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-          <div className="absolute bottom-4 left-4 text-white">
-            <p className="text-sm">
+          <div className="absolute bottom-2 sm:bottom-4 left-4 text-white">
+            <p className="text-xs sm:text-sm">
               {formatDateRange(cruise.departureDate, cruise.returnDate)}
             </p>
           </div>
         </div>
 
-        {/* Ship Info and Rating */}
-        <div className="flex items-center justify-between py-4 border-b">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Ship className="w-5 h-5 text-muted-foreground" />
-              <span className="font-medium">{cruise.ship.line.name}</span>
-            </div>
-            <SailingRating rating={cruise.ship.rating} reviews={cruise.ship.reviews} />
-          </div>
-          <div className="relative h-8 w-24">
-            <Image
-              src={cruise.ship.line.logo}
-              alt={`${cruise.ship.line.name} logo`}
-              fill
-              className="object-contain"
-              sizes="96px"
-            />
-          </div>
-        </div>
-
-        {/* Duration and Region */}
-        <div className="flex items-center gap-4 text-muted-foreground">
-          <span>{cruise.duration} nights</span>
-          <span>{cruise.region}</span>
-        </div>
-
-        {/* Itinerary */}
-        <div className="space-y-2">
-          <h3 className="font-medium">Full Itinerary</h3>
-          <div className="space-y-2 mt-4">
-            {cruise.itinerary.map((port, index) => (
-              <div
-                key={index}
-                className={cn(
-                  "flex items-center gap-2 rounded-md",
-                  index === 0 && "bg-blue-50 dark:bg-blue-950"
-                )}
-              >
-                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-xs font-medium">{index + 1}</span>
-                </div>
-                <span>{port}</span>
+        {/* Content in scrollable container */}
+        <div className="space-y-4 overflow-y-auto">
+          {/* Ship Info and Rating - Stacked on mobile */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between py-2 sm:py-4 border-b gap-2">
+            <div className="space-y-1 sm:space-y-2">
+              <div className="flex items-center gap-2">
+                <Ship className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
+                <span className="font-medium">{cruise.ship.line.name}</span>
               </div>
-            ))}
+              <SailingRating
+                rating={cruise.ship.rating}
+                reviews={cruise.ship.reviews}
+              />
+            </div>
+            <div className="relative h-6 sm:h-8 w-20 sm:w-24">
+              <Image
+                src={cruise.ship.line.logo}
+                alt={`${cruise.ship.line.name} logo`}
+                fill
+                className="object-contain"
+                sizes="96px"
+              />
+            </div>
+          </div>
+
+          {/* Duration and Region */}
+          <div className="flex items-center gap-4 text-sm sm:text-base text-muted-foreground">
+            <span>{cruise.duration} nights</span>
+            <span>{cruise.region}</span>
+          </div>
+
+          {/* Itinerary - Compact on mobile */}
+          <div className="space-y-2">
+            <h3 className="font-medium">Full Itinerary</h3>
+            <div className="space-y-1 sm:space-y-2 mt-2 sm:mt-4">
+              {cruise.itinerary.map((port, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    "flex items-center gap-2 p-1 sm:p-2 rounded-md text-sm sm:text-base",
+                    index === 0 && "bg-blue-50 dark:bg-blue-950"
+                  )}
+                >
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <span className="text-xs font-medium">{index + 1}</span>
+                  </div>
+                  <span>{port}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Price and Book */}
-        <div className="flex items-center justify-between mt-4 pt-4 border-t">
+        {/* Price and Book - Fixed at bottom on mobile */}
+        <div className="flex items-center justify-between mt-4 pt-4 border-t sticky bottom-0 bg-background">
           <div>
-            <p className="text-sm text-muted-foreground">Interior from</p>
-            <p className="text-2xl font-semibold">${cruise.price}</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">
+              Interior from
+            </p>
+            <p className="text-xl sm:text-2xl font-semibold">${cruise.price}</p>
           </div>
-          <Button size="lg" className="bg-blue-600 dark:text-white px-8">
+          <Button
+            size="default"
+            className="bg-blue-600 dark:text-white px-6 sm:px-8"
+          >
             Book Now
           </Button>
         </div>

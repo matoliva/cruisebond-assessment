@@ -58,16 +58,16 @@ export function AppSidebar() {
 
       <SidebarContent className="p-4">
         <SidebarGroup className="space-y-6">
-          {/* Departure date Filter */}
+          {/* Cruiseline Filter */}
           <div>
-            <h2 className="mb-2 text-lg font-medium">Departure date</h2>
-            <DatePicker
-              date={
-                currentFilters.departureDay
-                  ? new Date(currentFilters.departureDay)
-                  : null
-              }
-              handleDateChange={handleDateChange}
+            <h2 className="mb-2 text-lg font-medium">Cruiseline</h2>
+            <ComboboxFilter
+              options={cruiseLines}
+              currentValue={currentFilters.cruiseLine}
+              onSelect={setCruiseLineFilter}
+              placeholder="Any ship"
+              searchPlaceholder="Search cruise lines..."
+              emptyMessage="No cruise line found."
             />
           </div>
         </SidebarGroup>
@@ -87,16 +87,16 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup className="space-y-6">
-          {/* Cruiseline Filter */}
+          {/* Departure date Filter */}
           <div>
-            <h2 className="mb-2 text-lg font-medium">Cruiseline</h2>
-            <ComboboxFilter
-              options={cruiseLines}
-              currentValue={currentFilters.cruiseLine}
-              onSelect={setCruiseLineFilter}
-              placeholder="Any ship"
-              searchPlaceholder="Search cruise lines..."
-              emptyMessage="No cruise line found."
+            <h2 className="mb-2 text-lg font-medium">Departure date</h2>
+            <DatePicker
+              date={
+                currentFilters.departureDay
+                  ? new Date(currentFilters.departureDay)
+                  : null
+              }
+              handleDateChange={handleDateChange}
             />
           </div>
         </SidebarGroup>
