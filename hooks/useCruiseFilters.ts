@@ -3,7 +3,7 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { extractDeparturePorts, extractCruiseLines } from "@/utils/filters";
-import { useCruises } from "./use-cruises";
+import { useFetchCruises } from "./useFetchCruises";
 import { PortOption } from "@/types/port";
 
 interface UseCruiseFiltersReturn {
@@ -27,6 +27,29 @@ interface UseCruiseFiltersReturn {
   resetFilters: () => void;
 }
 
+/**
+ * Custom hook for managing cruise search filters and pagination through URL state.
+ *
+ * This hook provides a centralized way to:
+ * - Manage filter state (ports, cruise lines) in URL parameters
+ * - Handle sorting and pagination
+ * - Calculate filtered and total results
+ * - Keep UI state in sync with URL
+ *
+ * Benefits of URL-based state:
+ * - Shareable filtered/sorted results
+ * - Browser history support
+ * - Bookmarkable searches
+ * - SEO-friendly URLs
+ *
+ * @returns {UseCruiseFiltersReturn} Object containing:
+ * - Filtered and paginated cruises
+ * - Available filter options
+ * - Current filter states
+ * - Methods to update filters
+ * - Loading and error states
+ */
+
 export const useCruiseFilters = (): UseCruiseFiltersReturn => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -37,7 +60,7 @@ export const useCruiseFilters = (): UseCruiseFiltersReturn => {
   const currentPage = Number(searchParams.get("page")) || 1;
   const itemsPerPage = 10;
 
-  const { cruises, isLoading, isError } = useCruises();
+  const { cruises, isLoading, isError } = useFetchCruises();
 
   // Get all cruises length (total count)
   const totalCruises = cruises?.length ?? 0;

@@ -1,10 +1,25 @@
+/**
+* Home page component that displays the cruise search interface.
+* 
+* Suspense is used here to handle asynchronous operations:
+* - Wraps the entire content because useSearchParams() hook is used in child components
+* - Required by Next.js when using client-side hooks that read URL state
+* - Provides a consistent loading experience with CruiseListSkeleton as fallback
+* - Prevents hydration errors from URL-based state management
+* 
+* Component Structure:
+* - SidebarProvider: Manages sidebar state
+* - AppSidebar: Filters and navigation
+* - CruiseContent: Main content area with search results
+*/
+
 "use client";
 
 import { Suspense } from "react";
 
 import { SidebarProvider } from "@/components/ui/sidebar";
 
-import { AppSidebar } from "@/components/ui/app-sidebar";
+import { AppSidebar } from "@/components/cruisebound/app-sidebar";
 
 import { CruiseContent } from "@/components/cruisebound/cruise-content";
 import { CruiseListSkeleton } from "@/components/cruisebound/cruise-card-skeleton";

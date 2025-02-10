@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { useCruiseFilters } from "@/hooks/use-filters"
+import { useCruiseFilters } from "@/hooks/useCruiseFilters"
 
 export const SelectSortBy = () => {
   const { currentFilters, setSort } = useCruiseFilters()
